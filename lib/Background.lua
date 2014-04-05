@@ -11,4 +11,7 @@ function Background:initialize(img, x, y, name)
 	self.name = name or "Background"
 end
 
+function Background:getRenderNode()
+	return RenderNode:new( self.canvas, self.position )
+end
 return Background
