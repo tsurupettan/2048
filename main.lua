@@ -1,29 +1,12 @@
-class = require '30log'
-
-function createImageCanvas_Fit( img_path, width, height )
-	image = love.graphics.newImage( img_path )
-
-	canvas = love.graphics.newCanvas( width, height)
-	love.graphics.setCanvas(canvas)
-		canvas:clear()
-		love.graphics.setBlendMode('alpha')
-		love.graphics.draw(image, 0, 0, 0,
-						   width/image:getWidth(),
-						   height/image:getHeight()
-						  )
-	love.graphics.setCanvas()
-	return canvas
-end
-
-
-pikachu_x = 0
-pikachu_y = 0
+IH = require 'lib/imagehelper'
+Player = require 'lib/player'
 
 function love.load()
 	win_width, win_height = love.graphics.getDimensions( )
 
-	background = createImageCanvas_Fit("background.jpg", win_width, win_height)
-	pikachu = createImageCanvas_Fit("pikachu.png", 100, 100)
+	background = IH.createImageCanvas_Fit("background.jpg", win_width, win_height)
+	pikachuCanvas = IH.createImageCanvas_Fit("pikachu.png", 100, 100)
+	pikachu = Player:new(pikachuCanvas, 0 ,0)
 end
 
 function love.draw()
@@ -34,22 +17,11 @@ function love.draw()
     love.graphics.draw(background)
 
     --Draw Pikachu
-    love.graphics.draw(pikachu, pikachu_x, pikachu_y)
+    love.graphics.draw(pikachu.canvas, pikachu.x, pikachu.y)
 end
 
-rate = 500
+
 function love.update(dt)
-	if love.keyboard.isDown("down") then
-		pikachu_y = pikachu_y + (dt * rate)
-	end
-	if love.keyboard.isDown("up") then
-		pikachu_y = pikachu_y - (dt * rate)
-	end
-	if love.keyboard.isDown("right") then
-		pikachu_x = pikachu_x + (dt * rate)
-	end
-	if love.keyboard.isDown("left") then
-		pikachu_x = pikachu_x - (dt * rate)
-	end
+	pikachu:update(dt)
 end
 
