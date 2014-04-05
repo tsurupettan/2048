@@ -1,7 +1,7 @@
 
 IH = require 'lib/imagehelper'
 BasicDrawSystem = require 'lib/BasicDrawSystem'
-DefaultMoveSystem = require 'lib/MoveSystem'
+BasicMoveSystem = require 'lib/BasicMoveSystem'
 Player = require 'lib/player'
 Background = require 'lib/Background'
 
@@ -17,7 +17,7 @@ function love.load()
 	pikachu = Player:new(pikachuCanvas, 0 ,0)
 
 	-- Initialize MoveSystem
-	InitMoveSystem = DefaultMoveSystem:new()
+	InitMoveSystem = BasicMoveSystem:new()
 	InitMoveSystem:addNode(pikachu)
 
 	-- Initialize BasicDrawSystem

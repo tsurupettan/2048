@@ -1,20 +1,20 @@
 local class = require 'lib/middleclass'
 
-MoveSystem = class('MoveSystem')
+BasicMoveSystem = class('BasicMoveSystem')
 
-function MoveSystem:initialize( )
+function BasicMoveSystem:initialize( )
 	self.targets = {}
 end
 
-function MoveSystem:size()
+function BasicMoveSystem:size()
 	return #self.targets
 end
 
-function MoveSystem:addNode( node )
+function BasicMoveSystem:addNode( node )
 	table.insert( self.targets, node )
 end
 
-function MoveSystem:update( dt )
+function BasicMoveSystem:update( dt )
 	for i, target in ipairs(self.targets) do
 		target.position.x = target.position.x + 
 							target.velocity.x * dt
@@ -23,4 +23,4 @@ function MoveSystem:update( dt )
 	end
 end
 
-return MoveSystem
+return BasicMoveSystem
