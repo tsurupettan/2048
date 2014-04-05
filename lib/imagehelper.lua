@@ -1,6 +1,5 @@
 IH = {}
 
-
 function IH.createImageCanvas_Fit( img_path, width, height )
 	image = love.graphics.newImage( img_path )
 

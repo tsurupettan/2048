@@ -14,7 +14,7 @@ function BasicDrawSystem:addNode( node )
 	table.insert( self.targets, node )
 end
 
-function BasicDrawSystem:draw( dt )
+function BasicDrawSystem:draw()
 	love.graphics.setBlendMode('premultiplied')
 	for i, target in ipairs(self.targets) do
     	love.graphics.draw(	target.canvas, 
