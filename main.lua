@@ -1,4 +1,5 @@
 IH = require 'lib/imagehelper'
+BasicDrawSystem = require 'lib/BasicDrawSystem'
 DefaultMoveSystem = require 'lib/MoveSystem'
 Player = require 'lib/player'
 
@@ -16,18 +17,19 @@ function love.load()
 	-- Initialize MoveSystem
 	InitMoveSystem = DefaultMoveSystem:new()
 	InitMoveSystem:addNode(pikachu)
+
+	-- Initialize BasicDrawSystem
+	InitDrawSystem = BasicDrawSystem:new()
+	InitDrawSystem:addNode(pikachu)
 end
 
 function love.draw()
     -- Draw background
-    love.graphics.setBlendMode('premultiplied')
     love.graphics.draw(background)
 
     --Draw Pikachu
-    love.graphics.draw(pikachu.canvas, pikachu.position.x, 
-    								   pikachu.position.y)
+    InitDrawSystem:draw()
 end
-
 
 function love.update(dt)
 	pikachu:updateInputs(dt)
