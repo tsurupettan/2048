@@ -15,6 +15,8 @@ function love.load()
 	sky = Background:new("background.jpg", 
 						 win_width, 
 						 win_height)
+	sky:drawGrid(100,100)
+
 
 	pikachuCanvas = IH.createImageCanvas_Fit("pikachu.png", 100, 100)
 	pikachu = Player:new(pikachuCanvas, 0 ,0)
@@ -29,7 +31,6 @@ function love.load()
 
 	tMoveSystem = TiledMoveInputSystem:new()
 	tMoveSystem:addNode(pikachu:getMoveNode())
-
 
 	-- Initialize BasicDrawSystem
 	InitDrawSystem = BasicDrawSystem:new()
