@@ -2,7 +2,9 @@ local class = require 'lib/middleclass'
 
 TiledMoveInputSystem = class('TiledMoveInputSystem')
 
-function TiledMoveInputSystem:initialize( moveWidth, moveHeight )
+function TiledMoveInputSystem:initialize( keyCallBackSystem, 
+										  moveWidth, moveHeight )
+	self.keyCallBackSystem = keyCallBackSystem
 	self.moveWidth = moveWidth
 	self.moveHeight = moveHeight
 	
@@ -13,38 +15,40 @@ function TiledMoveInputSystem:size()
 	return #self.targets
 end
 
-function TiledMoveInputSystem:addNode( node )
-	tileNode = {}
-	tileNode.node = node
-	tileNode.rft = 0
-	table.insert( self.targets, tileNode )
+local tiledMoveUp    = 1
+local tiledMoveDown  = 2
+local tiledMoveLeft  = 3
+local tiledMoveRight = 4
+
+local function TiledMoveCallback( pressed, key, isrepeat, nodefunc )
+	if pressed then 
+		nodefunc.tiledMoveRight = true;
+	end
 end
 
-moveTime = 0.5
+function TiledMoveInputSystem:addNode( node )
+	nodefunc = {}
+	nodefunc.node = node
+	nodefunc.func = TiledMoveCallback
+	self.keyCallBackSystem:addNode( nodefunc )
+	table.insert( self.targets, nodefunc )
+end
 
 function TiledMoveInputSystem:update( dt )
-	for i, target in ipairs(self.targets) do
-		if(target.rft == 0) then
-			target.node.velocity.x = 0
-			target.node.velocity.y = 0
-			if love.keyboard.isDown("right") then
-				target.rft = moveTime
-				target.node.velocity.x = 100
+	rightIsDown = love.keyboard.isDown("right")
+	for i, nodefunc in ipairs(self.targets) do
+		node = nodefunc.node
+		if nodefunc.tiledMoveRight then
+			if rightIsDown then
+				node.position.x = node.position.x + 500 * dt
+			else
+				destination = node.position.x - node.position.x % self.moveWidth + self.moveWidth
+				node.position.x = math.min( destination, 
+									node.position.x + 500 * dt )
+			    if node.position.x == destination then
+					nodefunc.tiledMoveRight = false
+				end
 			end
-			if love.keyboard.isDown("left") then
-				target.rft = moveTime
-				target.node.velocity.x = -100
-			end
-			if love.keyboard.isDown("up") then
-				target.rft = moveTime
-				target.node.velocity.y = -100 
-			end
-			if love.keyboard.isDown("down") then
-				target.rft = moveTime
-				target.node.velocity.y = 100 
-			end
-		else
-			target.rft = math.max(target.rft - dt, 0)
 		end
 	end
 end

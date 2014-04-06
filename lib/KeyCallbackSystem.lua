@@ -1,23 +1,23 @@
 local class = require 'lib/middleclass'
 
-KeyCallbackSystem.lua = class('KeyCallbackSystem.lua')
+KeyCallbackSystem = class('KeyCallbackSystem')
 
-function KeyCallbackSystem.lua:initialize()
+function KeyCallbackSystem:initialize()
 	self.targets = {}
 end
 
-function KeyCallbackSystem.lua:size()
+function KeyCallbackSystem:size()
 	return #self.targets
 end
 
-function KeyCallbackSystem.lua:addNode( nodefunc )
+function KeyCallbackSystem:addNode( nodefunc )
 	table.insert( self.targets, nodefunc )
 end
 
-function KeyCallbackSystem.lua:update( pressed, key, isrepeat )
-	for i, target in ipairs(self.targets) do
-		target.func( pressed, key, isrepeat, target.node)
+function KeyCallbackSystem:update( pressed, key, isrepeat )
+	for i, target in ipairs( self.targets ) do
+		target.func( pressed, key, isrepeat, target )
 	end
 end
 
-return KeyCallbackSystem.lua
+return KeyCallbackSystem
