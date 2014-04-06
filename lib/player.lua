@@ -15,7 +15,7 @@ function Player:initialize(canvas, x, y)
 end
 
 function Player:getMoveNode( )
-	return MoveNode:new( self.position, self.velocity)
+	return MoveNode:new( self.position, self.velocity )
 end
 
 function Player:getRenderNode()
